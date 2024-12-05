@@ -2,7 +2,7 @@
 
 <img width="1512" alt="Shiny_app" src="https://github.com/user-attachments/assets/581c7965-1f0d-491c-b8f6-14b062a6f8a2">
 
-This is a very basic app designed to work locally with the users having RStudio and R installed.
+This is a very basic 'shiny' app designed to work locally with the users having RStudio and R installed.
 
 
 
