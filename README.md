@@ -7,7 +7,7 @@ This is a very basic 'shiny' app designed to work locally with the users having 
 
 
 ## Background
-The use case is reviewing of abstracts for a conference (see 'abstracts.xlsx' for the required format). Rather than hosting a giant spreadsheet in which all reviewers provide their scores. Each reviewer scores the abstract and then sends their .xlsx to the chair who can then easily combine them.
+The use case is reviewing of abstracts for a conference (see 'abstracts.xlsx' for the required format). Rather than hosting a giant spreadsheet in which all reviewers provide their scores, each reviewer scores the abstract and then sends their .xlsx to the chair who can then easily combine them.
 
 Further extensions are possible (e.g., hosting online, etc.)
 
