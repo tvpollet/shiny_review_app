@@ -1,9 +1,8 @@
 # ReadMe
 
-<img width="1512" alt="Shiny_app" src="https://github.com/user-attachments/assets/581c7965-1f0d-491c-b8f6-14b062a6f8a2">
+ <img width="2560" alt="Shiny_app" src="https://github.com/user-attachments/assets/fc1dd04d-15ab-4f9e-b230-72d6033f42da">
 
 This is a very basic 'shiny' app designed to work locally with the users having RStudio and R installed.
-
 
 
 ## Background
@@ -21,7 +20,7 @@ Disclosure, I am a novice and have heavily relied on AI to help me build this Sh
 
 ## Limitations
 * There is only one randomisation for _all_ reviewers.
-* Currently set to three reviewers.
+* Currently set to four reviewers.
 * Currently only set to two review criteria to be scored on a 0-10 scale.
 
 
