@@ -18,7 +18,7 @@ load_or_create_randomized_order <- function(reviewer) {
   if (file.exists(file_path)) {
     randomized_order <- as.numeric(readLines(file_path))
   } else {
-    set.seed(1981)  # Set a seed for reproducibility
+    set.seed(as.numeric(substr(reviewer, 2, 2)))  # Use reviewer ID as seed for reproducibility
     randomized_order <- sample(1:nrow(abstracts))
     writeLines(as.character(randomized_order), file_path)
   }
@@ -31,17 +31,20 @@ ui <- fluidPage(
   titlePanel("Abstract Review"),
   sidebarLayout(
     sidebarPanel(
-      selectInput("reviewer", "Reviewer", choices = c("R1", "R2", "R3")),
+      selectInput("reviewer", "Reviewer", choices = c("R1", "R2", "R3", "R4")),
       actionButton("prev_btn", "Previous Abstract"),
       actionButton("next_btn", "Next Abstract"),
-      numericInput("jump_to_id", "Jump to Abstract ID:", value = 1, min = 1, max = nrow(abstracts)),
-      actionButton("jump_btn", "Jump to Abstract")
+      numericInput("jump_to_id", "Jump to Randomized Abstract ID:", value = 1, min = 1, max = nrow(abstracts)),
+      actionButton("jump_btn", "Jump to Randomized Abstract"),
+      numericInput("jump_to_original_id", "Jump to Original Abstract ID:", value = 1, min = 1, max = nrow(abstracts)),
+      actionButton("jump_to_original_btn", "Jump to Original Abstract")
     ),
     mainPanel(
       uiOutput("abstract_info"),
-      textInput("relevance", "Relevance (0-10)", value = ""),
-      textInput("method", "Methods (0-10)", value = ""),
+      textInput("relevance", "Relevance / Originality (0-10)", value = ""),
+      textInput("method", "Methodological quality (0-10)", value = ""),
       uiOutput("outcome"),  # Dynamic UI for outcome
+      textAreaInput("notes", "Notes", value = ""),
       actionButton("submit", "Submit Score"),
       hidden(div(id = "feedback", "Score submitted successfully!")),  # Hidden feedback message
       textOutput("feedback_text")  # Add a feedback output
@@ -79,6 +82,7 @@ server <- function(input, output, session) {
       updateTextInput(session, "relevance", value = "")
       updateTextInput(session, "method", value = "")
       updateSelectInput(session, "outcome", selected = character(0))
+      updateTextAreaInput(session, "notes", value = "")
     }
   })
   
@@ -90,7 +94,7 @@ server <- function(input, output, session) {
     }
   })
   
-  # Jump to a specific abstract by ID
+  # Jump to a specific abstract by randomized ID
   observeEvent(input$jump_btn, {
     reviewer <- input$reviewer
     if (nrow(abstracts) > 0) {
@@ -98,6 +102,20 @@ server <- function(input, output, session) {
       updateTextInput(session, "relevance", value = "")
       updateTextInput(session, "method", value = "")
       updateSelectInput(session, "outcome", selected = character(0))
+      updateTextAreaInput(session, "notes", value = "")
+    }
+  })
+  
+  # Jump to a specific abstract by original ID
+  observeEvent(input$jump_to_original_btn, {
+    reviewer <- input$reviewer
+    if (nrow(abstracts) > 0) {
+      original_id <- input$jump_to_original_id
+      values$current <- which(abstracts$ID == original_id)
+      updateTextInput(session, "relevance", value = "")
+      updateTextInput(session, "method", value = "")
+      updateSelectInput(session, "outcome", selected = character(0))
+      updateTextAreaInput(session, "notes", value = "")
     }
   })
   
@@ -111,6 +129,7 @@ server <- function(input, output, session) {
         updateTextInput(session, "relevance", value = existing_data[[paste0("Relevance_", reviewer)]][row_index])
         updateTextInput(session, "method", value = existing_data[[paste0("Method_", reviewer)]][row_index])
         updateSelectInput(session, "outcome", selected = existing_data[[paste0("Outcome_", reviewer)]][row_index])
+        updateTextAreaInput(session, "notes", value = existing_data[[paste0("Notes_", reviewer)]][row_index])
       }
     }
   })
@@ -140,7 +159,7 @@ server <- function(input, output, session) {
   
   # Render outcome options in the specified order
   output$outcome <- renderUI({
-    request_options <- c("Poster", "Short Talk", "Talk")
+    request_options <- c("Reject", "Poster", "Short Talk", "Talk")
     selectInput("outcome", "Outcome", choices = request_options)
   })
   
@@ -162,6 +181,7 @@ server <- function(input, output, session) {
         new_row[[paste0("Relevance_", reviewer)]] <- relevance
         new_row[[paste0("Method_", reviewer)]] <- method
         new_row[[paste0("Outcome_", reviewer)]] <- input$outcome
+        new_row[[paste0("Notes_", reviewer)]] <- input$notes
         
         if (file.exists("scores.xlsx")) {
           existing_data <- read_excel("scores.xlsx")
@@ -195,6 +215,7 @@ server <- function(input, output, session) {
         updateTextInput(session, "relevance", value = "")
         updateTextInput(session, "method", value = "")
         updateSelectInput(session, "outcome", selected = character(0))
+        updateTextAreaInput(session, "notes", value = "")
       }
     } else {
       output$feedback_text <- renderText({ "No abstracts available to submit." })
