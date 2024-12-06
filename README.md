@@ -21,7 +21,7 @@ Disclosure, I am a novice and have heavily relied on AI to help me build this Sh
 
 ## Limitations
 * There is only one randomisation for _all_ reviewers.
-* Currently set to four reviewers.
+* Currently set to three reviewers.
 * Currently only set to two review criteria to be scored on a 0-10 scale.
 
 
