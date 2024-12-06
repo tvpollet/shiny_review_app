@@ -19,7 +19,6 @@ Disclosure, I am a novice and have heavily relied on AI to help me build this Sh
 * in the viewer, you'll see the abstract to score. Scores are stored in 'scores.xlsx'. The app should keep track of where you left off. (In case you forgot where you were, you can find where you were in current_abstract_index_Rx.txt. (x referring to your reviewer number). 'randomized_order_Rx.txt' stores the randomisation
 
 ## Limitations
-* There is only one randomisation for _all_ reviewers.
 * Currently set to four reviewers.
 * Currently only set to two review criteria to be scored on a 0-10 scale.
 
