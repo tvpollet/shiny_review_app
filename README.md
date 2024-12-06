@@ -22,5 +22,17 @@ Disclosure, I am a novice and have heavily relied on AI to help me build this Sh
 * Currently set to four reviewers.
 * Currently only set to two review criteria to be scored on a 0-10 scale.
 
+## Acknowledgments
+I would like to express my gratitude to the developers and communities behind the following tools and packages, which used in this app:
+
+- **[R](https://www.r-project.org/)**: A powerful language and environment for statistical computing and graphics.
+- **[RStudio](https://www.rstudio.com/)**: An integrated development environment (IDE) for R that makes data analysis and visualization more accessible.
+- **[Shiny](https://shiny.rstudio.com/)**: A web application framework for R that allows for the creation of interactive web applications.
+- **[Tidyverse](https://www.tidyverse.org/)**: A collection of R packages designed for data science, including tools for data manipulation, visualization, and programming.
+- **[Readxl](https://readxl.tidyverse.org/)**: An R package for reading Excel files.
+- **[Writexl](https://cran.r-project.org/web/packages/writexl/index.html)**: An R package for writing Excel xlsx and xls files.
+- **[ShinyJs](https://deanattali.com/shinyjs/)**: A package that extends Shiny with JavaScript functionality, making it easier to create dynamic and interactive web applications.
+
+And Mistral.ai which has helped me a bunch with the coding.
 
 
