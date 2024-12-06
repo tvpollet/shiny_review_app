@@ -111,11 +111,14 @@ server <- function(input, output, session) {
     reviewer <- input$reviewer
     if (nrow(abstracts) > 0) {
       original_id <- input$jump_to_original_id
-      values$current <- which(abstracts$ID == original_id)
-      updateTextInput(session, "relevance", value = "")
-      updateTextInput(session, "method", value = "")
-      updateSelectInput(session, "outcome", selected = character(0))
-      updateTextAreaInput(session, "notes", value = "")
+      original_index <- which(abstracts$ID == original_id)
+      if (length(original_index) > 0) {
+        values$current <- which(values$randomized_order == original_index)
+        updateTextInput(session, "relevance", value = "")
+        updateTextInput(session, "method", value = "")
+        updateSelectInput(session, "outcome", selected = character(0))
+        updateTextAreaInput(session, "notes", value = "")
+      }
     }
   })
   
