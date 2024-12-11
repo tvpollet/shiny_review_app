@@ -74,6 +74,12 @@ server <- function(input, output, session) {
     })
   })
   
+  # Save the current abstract index to a file on navigation
+  observeEvent(values$current, {
+    reviewer <- input$reviewer
+    writeLines(as.character(isolate(values$current)), paste0("current_abstract_index_", reviewer, ".txt"))
+  })
+  
   # Navigate to the next abstract
   observeEvent(input$next_btn, {
     reviewer <- input$reviewer
@@ -125,8 +131,9 @@ server <- function(input, output, session) {
   # Load existing scores when navigating to an abstract
   observeEvent(values$current, {
     reviewer <- input$reviewer
-    if (file.exists("scores.xlsx")) {
-      existing_data <- read_excel("scores.xlsx")
+    scores_file <- paste0("scores_", reviewer, ".xlsx")
+    if (file.exists(scores_file)) {
+      existing_data <- read_excel(scores_file)
       row_index <- which(existing_data$ID == abstracts$ID[values$randomized_order[values$current]])
       if (length(row_index) > 0) {
         updateTextInput(session, "relevance", value = existing_data[[paste0("Relevance_", reviewer)]][row_index])
@@ -169,6 +176,7 @@ server <- function(input, output, session) {
   # Handle score submission
   observeEvent(input$submit, {
     reviewer <- input$reviewer
+    scores_file <- paste0("scores_", reviewer, ".xlsx")
     if (!is.na(values$current) && nrow(abstracts) > 0) {
       relevance <- as.numeric(input$relevance)
       method <- as.numeric(input$method)
@@ -186,8 +194,8 @@ server <- function(input, output, session) {
         new_row[[paste0("Outcome_", reviewer)]] <- input$outcome
         new_row[[paste0("Notes_", reviewer)]] <- input$notes
         
-        if (file.exists("scores.xlsx")) {
-          existing_data <- read_excel("scores.xlsx")
+        if (file.exists(scores_file)) {
+          existing_data <- read_excel(scores_file)
           # Ensure the columns exist in the existing data
           cols_to_add <- setdiff(names(new_row), names(existing_data))
           for (col in cols_to_add) {
@@ -204,9 +212,9 @@ server <- function(input, output, session) {
             existing_data <- bind_rows(existing_data, new_row)
           }
           
-          write_xlsx(existing_data, "scores.xlsx")
+          write_xlsx(existing_data, scores_file)
         } else {
-          write_xlsx(new_row, "scores.xlsx")
+          write_xlsx(new_row, scores_file)
         }
         
         # Show the feedback message as a pop-up
