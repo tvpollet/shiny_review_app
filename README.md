@@ -16,11 +16,12 @@ Disclosure, I am a novice and have heavily relied on AI to help me build this Sh
 
 * Ensure you have a folder with the app and abstracts.xlsx file included. (You can easily modify the code if you'd prefer to). Ensure you have the relevant R packages installed.
 * In RStudio, click [run app](https://mastering-shiny.org/basic-app.html)
-* in the viewer, you'll see the abstract to score. Scores are stored in 'scores.xlsx'. The app should keep track of where you left off. (In case you forgot where you were, you can find where you were in current_abstract_index_Rx.txt. (x referring to your reviewer number). 'randomized_order_Rx.txt' stores the randomisation
+* in the viewer, you'll see the abstract to score. Scores are stored in 'scores_R1.xlsx', etc. The app should keep track of where you left off - but only tested the functionality in Rstudio not when loading in browser. (In case you forgot where you were, you can find where you were in current_abstract_index_Rx.txt. (x referring to your reviewer number). 'randomized_order_Rx.txt' stores the randomisation
 
 ## Limitations
 * Currently set to four reviewers.
 * Currently only set to two review criteria to be scored on a 0-10 scale.
+* Limited functionality when loading in browser as compared to inside RStudio.
 
 ## Acknowledgments
 I would like to express my gratitude to the developers and communities behind the following tools and packages, which used in this app:
